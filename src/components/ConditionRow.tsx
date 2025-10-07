@@ -25,7 +25,7 @@ export default function ConditionRow({
   };
 
   return (
-    <div className="flex items-center gap-3 mb-2 bg-gray-50 p-2 rounded-md border">
+  <div className="flex items-center gap-4 mb-3 bg-gray-50 p-3 rounded-md border">
       <Select
         onValueChange={(value) => handleChange("field", value)}
         value={condition.field}
@@ -51,7 +51,7 @@ export default function ConditionRow({
         </SelectTrigger>
         <SelectContent>
           {operatorOptions.map((op) => (
-            <SelectItem key={op.label} value={op.value}>
+            <SelectItem key={op.value} value={op.value}>
               {op.label}
             </SelectItem>
           ))}
@@ -61,6 +61,7 @@ export default function ConditionRow({
       <Select
         onValueChange={(value) => handleChange("value", value)}
         value={condition.value}
+        disabled={!condition.field}
       >
         <SelectTrigger className="w-[150px]">
           <SelectValue placeholder="Value" />
@@ -77,7 +78,11 @@ export default function ConditionRow({
         </SelectContent>
       </Select>
 
-      <Button variant="destructive" onClick={onRemove}>
+      <Button
+        className="cursor-pointer text-white hover:text-white bg-red-600 hover:bg-red-500  px-3 py-1"
+        variant="ghost"
+        onClick={onRemove}
+      >
         Remove
       </Button>
     </div>

@@ -24,11 +24,11 @@ export default function ConditionGroup({
   toggleLogic,
 }: ConditionGroupProps) {
   return (
-    <div className="border rounded-lg p-4 mb-3 bg-white shadow-sm">
-      <div className="flex justify-between mb-3">
+  <div className="border rounded-lg p-5 mb-4 bg-white shadow-sm">
+      <div className="flex items-center justify-between mb-4">
         <strong>{group.logic}</strong>
         <Button
-          className="text-white bg-blue-600 border-blue-600 hover:bg-blue-700 hover:border-blue-700"
+          className="cursor-pointer text-blue-600 border-blue-600 hover:bg-blue-50 hover:text-blue-700 px-3 py-1"
           variant="outline"
           size="sm"
           onClick={() => toggleLogic(group)}
@@ -56,12 +56,20 @@ export default function ConditionGroup({
           />
         )
       )}
-      <div className="flex gap-2 mt-2">
-        <Button variant="secondary" onClick={() => addCondition(group)}>
-          Add Condition
+      <div className="flex gap-3 mt-3">
+        <Button
+          className="cursor-pointer text-blue-600 border-blue-600 hover:bg-blue-50 hover:text-blue-700 px-3 py-1"
+          variant="secondary"
+          onClick={() => addCondition(group)}
+        >
+          + Add Condition
         </Button>
-        <Button variant="outline" onClick={() => addGroup(group)}>
-          Add Group
+        <Button
+          className="cursor-pointer text-blue-600 border-blue-600 hover:bg-blue-50 hover:text-blue-700 px-3 py-1"
+          variant="outline"
+          onClick={() => addGroup(group)}
+        >
+          + Add Group
         </Button>
       </div>
     </div>

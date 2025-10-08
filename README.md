@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# Query Builder Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully dynamic **Query Builder UI** built with **React** and **TypeScript**. This component enables users to construct complex queries using **AND/OR** logic, including support for nested condition groups.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Live Demo
 
-## React Compiler
+**Try it on Vercel:** [https://query-builder-rho.vercel.app](https://query-builder-rho.vercel.app)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Screenshot
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+![Query Builder Preview](./src/assets/querybuilder.png)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Overview
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This project aims to deliver a flexible Query Builder component featuring:
+- Creation and management of multiple conditions.
+- Each condition includes **Field**, **Operator**, and **Value** selectors.
+- Grouping of conditions with **AND/OR** logic.
+- Support for nested groups of conditions.
+
+---
+
+## Features
+
+- Add, edit, and remove conditions dynamically
+- Group conditions with **AND/OR** logic
+- Nest condition groups as needed
+- Toggle logic type for any group
+- Real-time, formatted query output
+- Output JSON matches assignment requirements
+- Built with **React Functional Components** and **Hooks**
+- Modular, reusable, and production-ready codebase
+- Minimal UI using **Tailwind CSS** and **Shadcn UI**
+
+---
+
+## Tech Stack
+
+| Library / Tool         | Purpose                        |
+|------------------------|--------------------------------|
+| **React + TypeScript** | UI and component logic         |
+| **Tailwind CSS**       | Utility-first styling          |
+| **Shadcn/UI**          | Composable UI components       |
+| **Vite**               | Fast development bundler       |
+| **ESLint + Prettier**  | Code quality and formatting    |
+
+---
+
+## Folder Structure
+
+```
+/QueryBuilder
+├── public/                # Static assets
+├── src/
+│   ├── assets/            # Images and static resources
+│   ├── components/        # Reusable React components
+│   ├── hooks/             # Custom React hooks
+│   ├── types/             # TypeScript type definitions
+│   ├── utils/             # Utility functions
+│   ├── App.tsx            # Main app entry
+│   └── main.tsx           # Vite entry point
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Quick Start
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Clone the repository**
+  ```bash
+  https://github.com/iamsuryakant/QueryBuilder.git
+  
+  cd QueryBuilder
+  ```
+2. **Install dependencies**
+  ```bash
+  npm install
+  ```
+3. **Run locally**
+  ```bash
+  npm run dev
+  ```
+4. **Open in your browser:**  
+  [http://localhost:5173](http://localhost:5173)

@@ -2,36 +2,26 @@ import { useQueryBuilder } from "@/hooks/useQueryBuilder";
 import ConditionGroup from "./ConditionGroup";
 import { Button } from "./ui/button";
 
-
-type Condition = {
-  field: string;
-  operator: string;
-  value: string | number | boolean;
-  logic?: "AND" | "OR";
-};
-
-type ConditionGroupType = {
-  logic: "AND" | "OR";
-  conditions: Array<Condition | ConditionGroupType>;
-};
-
-const normalizeQueryWithConditionalLogic = (group: ConditionGroupType): ConditionGroupType => {
-  const normalizedConditions = group.conditions.map((cond: Condition | ConditionGroupType, index: number) => {
-    const isLast = index === group.conditions.length - 1;
-
-    if ("logic" in cond && Array.isArray((cond as ConditionGroupType).conditions)) {
-      return normalizeQueryWithConditionalLogic(cond as ConditionGroupType);
-    } else {
-      return isLast
-        ? { ...cond }
-        : { ...cond, logic: group.logic};
-    }
-  });
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const formatQuery = (group: any): any => {
   return {
     logic: group.logic,
-    conditions: normalizedConditions,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    conditions: group.conditions.map((cond: any, i: number) => {
+      const isLast = i === group.conditions.length - 1;
+      if ("logic" in cond) {
+        return formatQuery(cond);
+      } else {
+        return isLast ? { ...cond } : { ...cond, logic: group.logic };
+      }
+    }),
   };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pseudoJSONStringify = (obj: any, indent = 2): string => {
+  const json = JSON.stringify(obj, null, indent);
+  return json.replace(/"([^"]+)":/g, "$1:");
 };
 
 export default function QueryBuilder() {
@@ -45,9 +35,9 @@ export default function QueryBuilder() {
   } = useQueryBuilder({ logic: "AND", conditions: [] });
 
   const handleGenerteQuery = () => {
-    const normalized = normalizeQueryWithConditionalLogic(query);
-    alert(JSON.stringify(normalized, null, 2));
-  }
+    const normalized = [formatQuery(query)];
+    alert(pseudoJSONStringify(normalized, 2));
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
@@ -72,10 +62,9 @@ export default function QueryBuilder() {
         </div>
 
         <pre className="mt-4 bg-gray-900 text-white p-3 rounded-md text-sm overflow-x-auto">
-          {JSON.stringify([normalizeQueryWithConditionalLogic(query)], null, 2)}
+          {pseudoJSONStringify([formatQuery(query)], 2)}
         </pre>
       </div>
     </div>
   );
 }
-

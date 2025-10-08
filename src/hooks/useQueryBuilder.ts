@@ -14,19 +14,46 @@ export type ConditionGroup = {
 export function useQueryBuilder(initial: ConditionGroup) {
   const [query, setQuery] = useState<ConditionGroup>(initial);
 
+  const updateQuery = (current: ConditionGroup, target: ConditionGroup, updateFn: (g: ConditionGroup) => void): ConditionGroup => {
+    if (current === target) {
+      const copy = structuredClone(current);
+      updateFn(copy);
+      return copy;
+    }
+
+    return {
+      ...current,
+      conditions: current.conditions.map((cond) => {
+        if ("logic" in cond) {
+          return updateQuery(cond, target, updateFn);
+        }
+        return cond;
+      }),
+    }
+  }
+
   const addCondition = (group: ConditionGroup) => {
-    group.conditions.push({ field: "", operator: "", value: "" });
-    setQuery({ ...query });
+    setQuery((prev) => 
+      updateQuery(prev, group, (g) => {
+        g.conditions.push({ field: "", operator: "", value: "" });
+      })
+    );
   };
 
   const addGroup = (group: ConditionGroup) => {
-    group.conditions.push({ logic: "AND", conditions: [] });
-    setQuery({ ...query });
+    setQuery((prev) => 
+      updateQuery(prev, group, (g) => {
+        g.conditions.push({ logic: "AND", conditions: [] });
+      })
+    );
   };
 
   const removeCondition = (group: ConditionGroup, index: number) => {
-    group.conditions.splice(index, 1);
-    setQuery({ ...query });
+    setQuery((prev) => 
+      updateQuery(prev, group, (g) => {
+        g.conditions.splice(index, 1);
+      })
+    );
   };
 
   const updateCondition = (
@@ -34,13 +61,19 @@ export function useQueryBuilder(initial: ConditionGroup) {
     index: number,
     updated: Condition
   ) => {
-    group.conditions[index] = updated;
-    setQuery({ ...query });
+    setQuery((prev) => 
+      updateQuery(prev, group, (g) => {
+        g.conditions[index] = updated;
+      })
+    );
   };
 
   const toggleLogic = (group: ConditionGroup) => {
-    group.logic = group.logic === "AND" ? "OR" : "AND";
-    setQuery({ ...query });
+    setQuery((prev) => 
+      updateQuery(prev, group, (g) => {
+        g.logic = g.logic === "AND" ? "OR" : "AND";
+      })
+    );
   };
 
   return {
